@@ -5,6 +5,27 @@ tags:
 ---
 <strong>在阅读博客过程中的JavaScript疑惑记录</strong>
 <!--more-->
+# js立即执行函数的写法
+立即执行函数其实就是直接调用匿名函数
+```javascript
+(
+    function(){
+        alert(1);
+    }()
+); 
+
+(function(){
+    alert(1);
+})(); 
+
+!function(){
+    alert(1);
+}(); 
+
+void function(){
+    alert(2);
+}(); 
+```
 # javascript执行机制
 <strong>javascript是一门单线程语言，在最新的HTML5中提出了Web-Worker，但javascript是单线程这一核心仍未改变。所以一切javascript版的"多线程"都是用单线程模拟出来的</strong>
 1. js任务：
@@ -196,3 +217,11 @@ setTimeout(() => {
 * Promise 错误
 通过 Promise 可以帮助我们解决异步回调异常的问题，但是一旦 Promise 实例抛出异常而你没有用 catch 去捕获的话，onerror 或 try-catch 也无能为力，无法捕捉到错误
 在写 Promise 实例的时候养成最后写上 catch 函数是个好习惯，如果你的应用用到很多的 Promise 实例的话，最好添加一个 Promise 全局异常捕获事件 unhandledrejection。
+
+# $(window).load()、window.onload=function(){}、$(document).ready()和windo、和document的区别
+1、$(window).load() 和window.onload=function(){}是页面中的所有元素（包括图片、flash）等都加载完毕后，才能执行；$(document).ready() 是页面中的DOM元素加载完成后便可执行。
+2、$(window).load()和window.onload=function(){}不同的是，前者可以和$(document).ready()一样，可以同时加载多个函数。
+3、window代表的是浏览器窗口，即可视的浏览器窗口；document代表的是整个页面的dom元素；即document只是window的一个属性；
+4、两者的区别在页面有滚动条时可以直观的显示出来，当出现滚动条时，$(window).height和$(document).height是不相等的，$(document).height比$(window).height大，因为window的高度始终都是可见的浏览器窗口的高度，而document的高度则是整个页面的dom元素的高度，即超出一屏幕了。
+5、当某一触发事件，需要页面的所有元素都加载完毕后才执行，并且元素不是通过ajax回调填充的情况下，使用$(window).load()即可。
+6、当某一触发事件，需要页面的所有元素都加载完毕后才执行，并且元素是通过ajax回调填充的情况下，使用$(window).load()会出现有时有效，有时无效的情况.
